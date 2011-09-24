@@ -1,10 +1,8 @@
 (ns conduit.core
-  (:use [clojure.contrib.seq-utils :only [indexed]]
-        [clojure.contrib.def :only [defalias defmacro-]]
-        [clojure.pprint :only [pprint]]
+  (:use [clojure.pprint :only [pprint]]
         [arrows.core]))
 
-(def *testing-conduit* false)
+(def ^:dynamic *testing-conduit* false)
 
 (defn merge-parts [ps]
   (apply merge-with merge
@@ -352,7 +350,7 @@
              true b
              false c))))
 
-(defmacro- dynamic-try-catch [[class e] try-block catch-block]
+(defmacro ^:private dynamic-try-catch [[class e] try-block catch-block]
   `(try
      ~try-block
      (catch Throwable ~e
@@ -398,7 +396,7 @@
         :created-by :a-catch
         :args [class p catch-p]})))
 
-(defalias a-except a-catch)
+(def a-except a-catch)
 
 (defn a-finally [p final-p]
   (letfn [(a-finally [f final-f x]
